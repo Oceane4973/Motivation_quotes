@@ -1,0 +1,67 @@
+name: Test and build Docker Image on Merge to Main
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies for backend
+        working-directory: ./backend
+        run: npm install
+
+      - name: Run tests
+        working-directory: ./backend
+        run: npm run test
+
+  build-and-push-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image for backend
+        working-directory: ./.github/production
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-backend:${{ github.sha }} ./backend
+
+      - name: Log in to Docker Hub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+      - name: Push Image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-backend:${{ github.sha }}
+
+  build-and-push-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image for frontend
+        working-directory: ./.github/production
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.sha }} ./frontend
+
+      - name: Log in to Docker Hub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+      - name: Push Image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.sha }}
