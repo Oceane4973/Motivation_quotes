@@ -1,23 +1,84 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import InputBar from './components/input/input/InputBar';
+import Header from './components/header/Header';
+import MessagesContainer from './components/message/MessagesContainer';
+import { QuotesMessages, ExtendedQuotesMessages } from './interface/interface';
+import apiService from './services/apiService';
 
 function App() {
+  const [isInputBarExpanded, setIsInputBarExpanded] = React.useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = React.useState(false);
+  const [messages, setMessages] = React.useState([]);
+  const messagesContainerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const headerTimer = setTimeout(() => {
+      setIsHeaderVisible(true);
+    }, 100);
+
+    const inputBarTimer = setTimeout(() => {
+      setIsInputBarExpanded(true);
+    }, 1000);
+
+    return () => {
+      clearTimeout(headerTimer);
+      clearTimeout(inputBarTimer);
+    };
+  }, []);
+
+  const addQuotesMessages = (messageQuote) => {
+    setTimeout(() => {
+      if (messagesContainerRef.current) {
+        messagesContainerRef.current.scrollTo({
+          top: messagesContainerRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
+    }, 100);
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      messageQuote,
+    ]);
+  }
+
+  const getQuotesMessages = async (message) => {
+
+    const quotesAPI = await apiService.quotes(message)
+    const quote = ExtendedQuotesMessages(
+      {
+        _message: quotesAPI.bestquotes,
+        _isFromUser: false,
+        _author: quotesAPI.author,
+        _score: quotesAPI.score
+      }
+    )
+    addQuotesMessages(quote)
+  }
+
+  const handleSendMessage = (message) => {
+    if (message.trim()) {
+      if (isHeaderVisible) {
+        setIsHeaderVisible(false);
+      }
+      addQuotesMessages(QuotesMessages({ _message: message, _isFromUser: true }))
+      getQuotesMessages(message);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header isVisible={isHeaderVisible} />
+      <div className="page-container">
+        <div className="app-container">
+          <MessagesContainer
+            ref={messagesContainerRef}
+            messages={messages}
+            isVisible={messages.length > 0}
+          />
+          <InputBar isExpanded={isInputBarExpanded} onSend={handleSendMessage} />
+        </div>
+      </div>
     </div>
   );
 }

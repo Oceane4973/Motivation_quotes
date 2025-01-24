@@ -1,0 +1,90 @@
+.input-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #9EC1A3;
+    border-radius: 25px;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    color: white;
+    box-shadow: 
+    0 0 1px #ffffff,
+    0 0 5px #a7beaa,   /* Diffusion large */
+    0 0 10px #9EC1A3,   /* Grande lueur */
+    0 0 30px #9EC1A3;   /* Effet néon plus large */
+}
+
+.input-bar.expanded {
+    width: 100%;
+    max-width: 700px;
+    padding: 0 10px;
+}
+
+.input-field::placeholder {
+    opacity: 0.7;
+    color: #ffffff;
+}
+
+input {
+    color: #ffffff;
+}
+
+.input-field {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 16px;
+    background-color: transparent;
+}
+
+.language-btn,
+.send-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 5px;
+    color: #ffffff;
+}
+
+.language-btn:hover,
+.send-btn:hover {
+    color: #40798C;
+}
+
+.input-container {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-left: 5px;
+}
+
+.input-bar {
+    position: relative;
+    transition: transform 0.3s ease, margin-top 0.3s ease;
+}
+
+
+.language-dropdown {
+    margin-right: 0px;
+}
+
+.language-select {
+    background-color: #9EC1A3;
+    color: #ffffff;
+    padding: 8px 8px;
+    font-size: 1em;
+    outline: none;
+    cursor: pointer;
+    border: solid 1px #ffffff;
+    border-radius: 20px;
+}
+
+.language-select:hover {
+    background-color: #40798C;
+}
