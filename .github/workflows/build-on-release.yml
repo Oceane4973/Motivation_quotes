@@ -14,7 +14,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Docker image for backend
-        working-directory: ./.github/production
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-backend:${{ github.event.release.tag_name }} ./backend
 
       - name: Log in to Docker Hub
@@ -34,7 +33,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Docker image for frontend
-        working-directory: ./.github/production
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.event.release.tag_name }} ./frontend
 
       - name: Log in to Docker Hub
