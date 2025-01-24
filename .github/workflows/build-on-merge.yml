@@ -24,7 +24,9 @@ jobs:
 
       - name: Run backend
         working-directory: ./backend
-        run: npm run start
+        run: |
+          nohup npm run start &
+          sleep 5
 
       - name: Run tests
         working-directory: ./backend
