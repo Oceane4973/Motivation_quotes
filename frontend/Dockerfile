@@ -2,15 +2,15 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY ../../../frontend/package*.json ./
+COPY package*.json ./
 RUN npm install
 
+COPY app/package.json ./app/
 WORKDIR /app/app
-
-COPY ../../../frontend/app/package.json ./app/
 RUN npm install
 
-COPY ../../../frontend .
+WORKDIR /app
+COPY . .
 
 EXPOSE 8080
 
