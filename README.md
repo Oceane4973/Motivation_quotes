@@ -12,3 +12,7 @@ Pour démarrer les conteneurs Docker associés à ce projet, suivre ces étapes 
 > **Volumes**
 > 
 > Des volumes ont été mis en place, ces volumes permettent de développer depuis votre IDE et de reporter vos modifications directement sur les conteneurs.
+
+## Tests
+
+Des tests unitaires ont été ajoutés au projet, pour les lancer : `docker exec motivation-quotes-backend npm run test`
