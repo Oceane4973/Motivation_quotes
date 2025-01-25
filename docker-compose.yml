@@ -1,7 +1,7 @@
 ---
 services:
   backend:
-    image: node:18-alpine
+    image: node:23-bullseye
     hostname: motivation-quotes-backend
     container_name: motivation-quotes-backend
     ports:
@@ -13,7 +13,7 @@ services:
     restart: always
 
   frontend:
-    image: node:18-alpine
+    image: node:23-bullseye
     hostname: motivation-quotes-frontend
     container_name: motivation-quotes-frontend
     ports:

@@ -16,6 +16,32 @@ jobs:
       - name: Build Docker image for backend
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-backend:${{ github.event.release.tag_name }} ./backend
 
+      - name: Run docker image
+        run: docker run --name motivation-quotes-backend -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-backend:${{ github.event.release.tag_name }}
+
+      - name: Verify if docker image can run
+        run: |
+          echo "Waiting for server to start..."
+          retries=5
+          
+          while [ $retries -gt 0 ]; do
+            status=$(curl -o /dev/null -s -w '%{http_code}' http://localhost:3000/languages)
+            if [ "$status" -eq 200 ]; then
+              echo "Server is up."
+              exit 0
+            else
+              echo "Server is still down, try again."
+              retries=$((retries - 1))
+              sleep 5
+            fi
+          done
+          
+          echo "Server doesn't answer after multiple tries."
+          exit 1
+
+      - name: Stop and delete container
+        run: docker rm -f motivation-quotes-backend
+
       - name: Log in to Docker Hub
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -34,6 +60,32 @@ jobs:
 
       - name: Build Docker image for frontend
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.event.release.tag_name }} ./frontend
+
+      - name: Run docker image
+        run: docker run --name motivation-quotes-frontend -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.sha }}
+
+      - name: Verify if docker image can run
+        run: |
+          echo "Waiting for server to start..."
+          retries=5
+          
+          while [ $retries -gt 0 ]; do
+            status=$(curl -o /dev/null -s -w '%{http_code}' http://localhost:8080)
+            if [ "$status" -eq 200 ]; then
+              echo "Server is up."
+              exit 0
+            else
+              echo "Server is still down, try again."
+              retries=$((retries - 1))
+              sleep 5
+            fi
+          done
+          
+          echo "Server doesn't answer after multiple tries."
+          exit 1
+
+      - name: Stop and delete container
+        run: docker rm -f motivation-quotes-frontend
 
       - name: Log in to Docker Hub
         env:
