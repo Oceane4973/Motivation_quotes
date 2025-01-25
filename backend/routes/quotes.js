@@ -5,10 +5,12 @@ const router = express.Router();
 router.get('/', (req, res) => {
     try {
         const queryParams = req.query;
+
         const keys = Object.keys(queryParams);
         if (keys.length !== 1) {
             return res.status(400).json({ error: 'Il doit y avoir exactement un argument.' });
         }
+
         const [key, value] = Object.entries(queryParams)[0];
         if (typeof value !== 'string') {
             return res.status(400).json({ error: 'L\'argument doit être une chaîne de caractères.' });

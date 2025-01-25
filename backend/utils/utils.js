@@ -1,6 +1,5 @@
 function cosineSimilarity(vecA, vecB) {
     if (vecA.length !== vecB.length) {
-        console.warn(`Dimension mismatch: vecA=${vecA.length}, vecB=${vecB.length}`);
         return NaN;
     }
     let dot = 0,

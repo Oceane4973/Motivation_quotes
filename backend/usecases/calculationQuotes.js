@@ -17,8 +17,9 @@ class CalculationQuotes {
 
     async getExternalQuotes() {
         const quotesData = await apiService(this.url);
+
         if (!Array.isArray(quotesData) || quotesData.length === 0) {
-            console.error('ZenQuotes a renvoyé un tableau vide ou invalide :', quotesData);
+            // ZenQuotes a renvoyé un tableau vide ou invalide
             return null;
         }
         return quotesData;
@@ -29,11 +30,8 @@ class CalculationQuotes {
         let quotesData = await this.getExternalQuotes();
 
         if (quotesData == null) {
-            console.log("passsé 0")
             return null;
         }
-
-        console.log("passsé 1 ")
 
         // On calcule l'embedding de toutes les citations
         for (const quoteObj of quotesData) {
@@ -49,19 +47,15 @@ class CalculationQuotes {
                     quoteObj.embedding = emb;
                 }
             } catch (err) {
-                console.error(`Erreur embedding pour "${quoteObj.q}" :`, err);
                 quoteObj.embedding = null;
             }
         }
-
-        console.log("passsé 2")
 
         let bestScore = -Infinity;
         let bestQuote = null;
 
         // Embedding de l'input utilisateur
         const userEmb = await nlpService.getEmbedding(userInput);
-
 
         try {
             for (const quoteObj of quotesData) {
@@ -72,8 +66,6 @@ class CalculationQuotes {
                     bestQuote = quoteObj;
                 }
             }
-
-            console.log("passsé 3 ")
 
             if (!bestQuote) {
                 // Si aucune quote n'est trouvée, on en prend une au hasard
@@ -105,7 +97,6 @@ class CalculationQuotes {
         }
     }
 }
-
 
 module.exports = {
     QuotesApiData,
