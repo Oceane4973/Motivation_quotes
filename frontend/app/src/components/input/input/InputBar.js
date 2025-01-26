@@ -1,9 +1,35 @@
 // InputBar.js
 import React from 'react';
 import './InputBar.css';
+import apiService from '../../../services/apiService';
 
 const InputBar = ({ isExpanded, onSend }) => {
   const [inputValue, setInputValue] = React.useState('');
+  const [languages, setLanguages] = React.useState([]);
+  const [selectedLanguage, setSelectedLanguage] = React.useState(languages[0]);
+
+  const handleChange = (e) => {
+    const selectedValue = e.target.value;
+    setSelectedLanguage(selectedValue);
+  };
+
+  React.useEffect(() => {
+    const fetchLanguages = async () => {
+      try {
+        const response = await apiService.languages();
+        let languages = response.languages || ["en", "fr"];
+        languages.sort((a, b) => a.localeCompare(b));
+        setLanguages(languages);
+        setSelectedLanguage(languages[0])
+      } catch (error) {
+        console.error("Error fetching languages:", error);
+        setLanguages(["en", "fr"]);
+        setSelectedLanguage(languages[0])
+      }
+    };
+
+    fetchLanguages();
+  }, []);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -17,7 +43,7 @@ const InputBar = ({ isExpanded, onSend }) => {
 
   const handleSend = () => {
     if (onSend) {
-      onSend(inputValue);
+      onSend(inputValue, selectedLanguage);
     }
     setInputValue('');
   };
@@ -43,14 +69,14 @@ const InputBar = ({ isExpanded, onSend }) => {
             <div className="language-dropdown">
               <select
                 className="language-select"
-                onChange={(e) => console.log(`Langue sélectionnée : ${e.target.value}`)}
-                defaultValue="en"
+                onChange={handleChange}
+                defaultValue={selectedLanguage}
               >
-                <option value="en">En</option>
-                <option value="fr">Fr</option>
-                <option value="es">Es</option>
-                <option value="de">De</option>
-                <option value="it">It</option>
+                {languages.map((lang) => (
+                  <option key={lang} value={lang}>
+                    {lang.toLowerCase()}
+                  </option>
+                ))}
               </select>
             </div>
             <button className="send-btn" onClick={handleSend}>➤</button>

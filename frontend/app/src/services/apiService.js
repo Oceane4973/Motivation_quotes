@@ -8,36 +8,43 @@ export const TranslateApiData = {
 }
 
 export const QuotesApiData = {
-  bestquotes: null,
+  quotes: null,
   score: null,
   author: null
 }
 
 class ApiService {
-  
+
   constructor() {
     this.apiClient = axios.create({
-      baseURL: 'https://localhost',
+      baseURL: 'http://localhost:3000',
       timeout: 5000,
     });
   }
 
-  async translate(text)  {
-    const response = await this.apiClient.get<TranslateApiData>('/translate', {
-      params: { text },
+  async translate(text, lang) {
+    console.log(text)
+    console.log(lang)
+    const response = await this.apiClient.get('/translate', {
+      params: {
+        message: text,
+        language: lang
+      }
     });
     return response.data;
   }
 
-  async languages()  {
-    const response = await this.apiClient.get<[]>('/translate/languages');
+  async languages() {
+    const response = await this.apiClient.get('/translate/languages');
     return response.data;
   }
 
-  async quotes(text){
-    const response = await this.apiClient.get<QuotesApiData>('/quotes', {
+  async quotes(text) {
+    const response = await this.apiClient.get('/quotes', {
       params: { text },
     });
+
+    console.log(response)
     return response.data;
   }
 }

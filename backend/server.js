@@ -1,9 +1,11 @@
 const express = require('express');
+const cors = require('cors');
+
 const app = express();
 const PORT = 3000;
 
 // Import de nlpService en CommonJS
-const nlpService = require('./services/NLPService.js'); 
+const nlpService = require('./services/NLPService.js').default; 
 
 (async () => {
     try {
@@ -14,6 +16,12 @@ const nlpService = require('./services/NLPService.js');
 })();
 
 app.use(express.json());
+
+app.use(cors({
+  origin: 'http://localhost',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 const translateRoutes = require('./routes/translate');
 const quotesRoutes = require('./routes/quotes');

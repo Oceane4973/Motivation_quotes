@@ -1,6 +1,6 @@
 const { apiService } = require('../services/apiService');
 const { cosineSimilarity } = require('../utils/utils');
-const nlpService = require('../services/NLPService');
+const nlpService = require('../services/NLPService').default;
 
 // On déclare simplement la constante :
 const QuotesApiData = {

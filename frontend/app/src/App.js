@@ -42,12 +42,14 @@ function App() {
     ]);
   }
 
-  const getQuotesMessages = async (message) => {
+  const getQuotesMessages = async (message, lang) => {
 
     const quotesAPI = await apiService.quotes(message)
+
+    const translatedQuote = await apiService.translate(quotesAPI.quotes, lang)
     const quote = ExtendedQuotesMessages(
       {
-        _message: quotesAPI.bestquotes,
+        _message: translatedQuote.translated,
         _isFromUser: false,
         _author: quotesAPI.author,
         _score: quotesAPI.score
@@ -56,13 +58,13 @@ function App() {
     addQuotesMessages(quote)
   }
 
-  const handleSendMessage = (message) => {
+  const handleSendMessage = (message, lang) => {
     if (message.trim()) {
       if (isHeaderVisible) {
         setIsHeaderVisible(false);
       }
       addQuotesMessages(QuotesMessages({ _message: message, _isFromUser: true }))
-      getQuotesMessages(message);
+      getQuotesMessages(message, lang);
     }
   };
 
