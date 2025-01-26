@@ -17,7 +17,7 @@ jobs:
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-backend:${{ github.event.release.tag_name }} ./backend
 
       - name: Run docker image
-        run: docker run --name motivation-quotes-backend -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-backend:${{ github.event.release.tag_name }}
+        run: docker run -d --name motivation-quotes-backend -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-backend:${{ github.event.release.tag_name }}
 
       - name: Verify if docker image can run
         run: |
@@ -62,7 +62,7 @@ jobs:
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.event.release.tag_name }} ./frontend
 
       - name: Run docker image
-        run: docker run --name motivation-quotes-frontend -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.sha }}
+        run: docker run -d --name motivation-quotes-frontend -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.sha }}
 
       - name: Verify if docker image can run
         run: |

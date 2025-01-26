@@ -45,7 +45,7 @@ jobs:
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-backend:${{ github.sha }} ./backend
 
       - name: Run docker image
-        run: docker run --name motivation-quotes-backend -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-backend:${{ github.sha }}
+        run: docker run -d --name motivation-quotes-backend -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-backend:${{ github.sha }}
 
       - name: Verify if docker image can run
         run: |
@@ -92,7 +92,7 @@ jobs:
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.sha }} ./frontend
 
       - name: Run docker image
-        run: docker run --name motivation-quotes-frontend -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.sha }}
+        run: docker run -d --name motivation-quotes-frontend -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.sha }}
 
       - name: Verify if docker image can run
         run: |
