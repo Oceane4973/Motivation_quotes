@@ -47,6 +47,9 @@ jobs:
       - name: Run docker image
         run: docker run -d --name motivation-quotes-backend -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-backend:${{ github.sha }}
 
+      - name: Install curl
+        run: sudo apt-get install curl
+
       - name: Verify if docker image can run
         run: |
           RESPONSE=$(curl -I http://localhost:3000/translate/languages)
@@ -83,6 +86,9 @@ jobs:
 
       - name: Run docker image
         run: docker run -d --name motivation-quotes-frontend -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.sha }}
+
+      - name: Install curl
+        run: sudo apt-get install curl
 
       - name: Verify if docker image can run
         run: |
