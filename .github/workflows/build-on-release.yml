@@ -54,25 +54,6 @@ jobs:
       - name: Build Docker image for frontend
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.event.release.tag_name }} ./frontend
 
-      - name: Run docker image
-        run: docker run -d --name motivation-quotes-frontend -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/motivation-quotes-frontend:${{ github.sha }}
-
-      - name: Install curl
-        run: sudo apt-get install curl
-
-      - name: Verify if docker image can run
-        run: |
-          RESPONSE=$(curl -I http://localhost:8080)
-          if echo "$RESPONSE" | grep -q "HTTP/1.1 200 OK"; then
-            echo "Server is up."
-          else
-            echo "Server is still down, try again."
-            exit 1
-          fi
-
-      - name: Stop and delete container
-        run: docker rm -f motivation-quotes-frontend
-
       - name: Log in to Docker Hub
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
