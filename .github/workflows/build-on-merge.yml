@@ -49,8 +49,8 @@ jobs:
 
       - name: Verify if docker image can run
         run: |
-          status=$(curl -o /dev/null -s -w '%{http_code}' http://localhost:3000/languages)
-          if [ "$status" -eq 200 ]; then
+          RESPONSE=$(curl -s http://localhost:3000/translate/languages)
+          if echo "$RESPONSE" | grep -q "HTTP/1.1 200 OK"; then
             echo "Server is up."
           else
             echo "Server is still down, try again."
@@ -86,8 +86,8 @@ jobs:
 
       - name: Verify if docker image can run
         run: |
-          status=$(curl -o /dev/null -s -w '%{http_code}' http://localhost:8080)
-          if [ "$status" -eq 200 ]; then
+          RESPONSE=$(curl -s http://localhost:8080)
+          if echo "$RESPONSE" | grep -q "HTTP/1.1 200 OK"; then
             echo "Server is up."
           else
             echo "Server is still down, try again."
