@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-COPY app/package.json ./app/
+COPY app/package*.json ./app/
 WORKDIR /app/app
 RUN npm install
 
@@ -14,4 +14,5 @@ COPY . .
 
 EXPOSE 8080
 
+WORKDIR /app/app
 CMD ["npm", "run", "start"]
