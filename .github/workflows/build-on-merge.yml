@@ -49,7 +49,7 @@ jobs:
 
       - name: Verify if docker image can run
         run: |
-          RESPONSE=$(curl -s http://localhost:3000/translate/languages)
+          RESPONSE=$(curl -I http://localhost:3000/translate/languages)
           if echo "$RESPONSE" | grep -q "HTTP/1.1 200 OK"; then
             echo "Server is up."
           else
@@ -86,7 +86,7 @@ jobs:
 
       - name: Verify if docker image can run
         run: |
-          RESPONSE=$(curl -s http://localhost:8080)
+          RESPONSE=$(curl -I http://localhost:8080)
           if echo "$RESPONSE" | grep -q "HTTP/1.1 200 OK"; then
             echo "Server is up."
           else
