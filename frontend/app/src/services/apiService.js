@@ -96,6 +96,7 @@ class ApiService {
       });
 
       const data = response.data;
+      console.log(data);
       if (
         typeof data.quotes !== 'string' ||
         typeof data.score !== 'number' ||

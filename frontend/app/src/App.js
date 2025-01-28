@@ -103,11 +103,6 @@ function App() {
       <Header isVisible={isHeaderVisible} />
       <div className="page-container">
         <div className="app-container">
-          {error && (
-            <div className="error-message">
-              <p>{error}</p>
-            </div>
-          )}
           <MessagesContainer
             ref={messagesContainerRef}
             messages={messages}

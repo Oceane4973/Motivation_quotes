@@ -1,11 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const { nlpService } = require('./services/NLPService.js'); 
 
 const app = express();
 const PORT = 3000;
-
-// Import de nlpService en CommonJS
-const nlpService = require('./services/NLPService.js').default; 
 
 (async () => {
     try {
