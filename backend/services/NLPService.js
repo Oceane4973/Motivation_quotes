@@ -31,5 +31,6 @@ class NLPService {
 
 const nlpService = new NLPService();
 
-
-module.exports = nlpService;
+module.exports = {
+    nlpService
+};
