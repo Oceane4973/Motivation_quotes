@@ -1,4 +1,8 @@
-# Motivation_quotes
+# MotivationQuotes
+
+Le déploiement continu est une pratique de développement logiciel où les modifications du code sont automatiquement testées et déployées en production sans intervention humaine, permettant ainsi une livraison rapide et fiable des nouvelles fonctionnalités aux utilisateurs. ([cf. IBM-Qu'est-ce que le déploiement continu](https://www.ibm.com/fr-fr/topics/continuous-deployment))
+
+Dans le cadre du cours sur le déploiement continu suivi à l'IMT Mines Alès, notre équipe de 3 étudiants ont développés l'application "MotivationQuotes". Ce projet consistait notamment à créer une application web avec deux microservices, avec pour principal objectif de mettre en place la conteneurisation et un déploiement continu en automatisant l'intégration via GitHub Actions.
 
 ## Service de citations motivantes
 
@@ -80,5 +84,9 @@ Pour démarrer les conteneurs Docker associés à ce projet, suivre ces étapes 
 ## Tests
 
 Des tests unitaires ont été ajoutés au projet, pour les lancer : `docker exec motivation-quotes-backend npm run test`
+
+## Visuel
+
+![image](https://github.com/user-attachments/assets/045f9624-c7ab-4109-ab69-9472078f2a04)
 
 
